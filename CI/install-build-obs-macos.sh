@@ -30,6 +30,7 @@ git checkout $OBSLatestTag
 mkdir build && cd build
 echo "[obs-websocket] Building obs-studio.."
 cmake .. \
+	-DBUILD_CAPTIONS=true \
 	-DDISABLE_PLUGINS=true \
 	-DCMAKE_PREFIX_PATH=/usr/local/opt/qt/lib/cmake \
 && make -j4
