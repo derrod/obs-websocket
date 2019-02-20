@@ -290,7 +290,7 @@ HandlerResponse WSRequestHandler::HandleSaveStreamSettings(WSRequestHandler* req
 
 
 /**
- * Send the provided text as embedded CEA-608 caption data
+ * Send the provided text as embedded caption data
  * 
  * @api requests
  * @name SendCaptions
@@ -301,10 +301,14 @@ HandlerResponse WSRequestHandler::HandleSendCaptions(WSRequestHandler* req) {
 		return req->SendErrorResponse("missing request parameters");
 	}
 
+	double duration = 2.0f;
+	if (req->hasField("duration"))
+		duration = obs_data_get_double(req->data, "duration");
+
 	OBSOutputAutoRelease output = obs_frontend_get_streaming_output();
 	if (output) {
 		const char* caption = obs_data_get_string(req->data, "text");
-		obs_output_output_caption_text1(output, caption);
+		obs_output_output_caption_text2(output, caption, duration);
 	}
 
 	return req->SendOKResponse();
